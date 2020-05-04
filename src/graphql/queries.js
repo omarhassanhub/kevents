@@ -15,8 +15,10 @@ export const getUser = /* GraphQL */ `
           title
           description
           image
+          social_url
           status
           startAt
+          owner
         }
         nextToken
       }
@@ -71,6 +73,7 @@ export const getEvent = /* GraphQL */ `
       title
       description
       image
+      social_url
       status
       user {
         id
@@ -103,6 +106,7 @@ export const getEvent = /* GraphQL */ `
         nextToken
       }
       startAt
+      owner
     }
   }
 `;
@@ -118,6 +122,7 @@ export const listEvents = /* GraphQL */ `
         title
         description
         image
+        social_url
         status
         user {
           id
@@ -133,6 +138,7 @@ export const listEvents = /* GraphQL */ `
           nextToken
         }
         startAt
+        owner
       }
       nextToken
     }
@@ -164,6 +170,7 @@ export const getChat = /* GraphQL */ `
         title
         description
         image
+        social_url
         status
         user {
           id
@@ -179,6 +186,7 @@ export const getChat = /* GraphQL */ `
           nextToken
         }
         startAt
+        owner
       }
       createdAt
     }
@@ -206,8 +214,10 @@ export const listChats = /* GraphQL */ `
           title
           description
           image
+          social_url
           status
           startAt
+          owner
         }
         createdAt
       }
@@ -240,6 +250,7 @@ export const getFollower = /* GraphQL */ `
         title
         description
         image
+        social_url
         status
         user {
           id
@@ -255,6 +266,7 @@ export const getFollower = /* GraphQL */ `
           nextToken
         }
         startAt
+        owner
       }
     }
   }
@@ -280,8 +292,10 @@ export const listFollowers = /* GraphQL */ `
           title
           description
           image
+          social_url
           status
           startAt
+          owner
         }
       }
       nextToken

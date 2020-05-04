@@ -19,7 +19,7 @@ import {
 import { API, graphqlOperation, Auth } from 'aws-amplify';
 import { createFollower, deleteFollower } from '../graphql/mutations';
 
-import EventBox from '../components/EventBox';
+import EventBoxDetailsScreen from '../components/EventBoxDetailsScreen';
 
 export default function EventScreen(props) {
   let { event } = props.route.params;
@@ -28,11 +28,16 @@ export default function EventScreen(props) {
   let [followers, setFollowers] = useState([]);
   let [follower, setFollower] = useState([]);
   let [pending, setPending] = useState(false);
+  const [isUpdate, setUpdate] = useState(false);
 
   async function authUser() {
     const cognitoUser = await Auth.currentAuthenticatedUser();
     if (cognitoUser) {
+
       setCurrentUser(cognitoUser);
+    }
+    if (cognitoUser.signInUserSession.idToken.payload['cognito:groups'].indexOf("master") > -1) {
+      setUpdate(true)
     }
   }
 
@@ -63,7 +68,7 @@ export default function EventScreen(props) {
   }
   `;
 
-  renderFollowers = () => {
+  const renderFollowers = () => {
     if (followers.length > 0)
       return followers.map((follower) => (
         <ListItem key={follower.id}>
@@ -81,7 +86,7 @@ export default function EventScreen(props) {
     );
   };
 
-  renderActionButton = () => {
+  const renderActionButton = () => {
     if (follower.length !== 0) {
       return (
         <Card transparent>
@@ -91,6 +96,7 @@ export default function EventScreen(props) {
               <Button danger bordered onPress={() => leaveEvent(follower)}>
                 <Text>Leave</Text>
               </Button>
+
             </Body>
             <Right />
           </CardItem>
@@ -112,9 +118,9 @@ export default function EventScreen(props) {
     );
   };
 
-  joinEvent = (event, currentUser) => {
+  const joinEvent = (event, currentUser) => {
     if (!pending) {
-      createNewFollower = async () => {
+      const createNewFollower = async () => {
         const input = {
           input: {
             followerUserId: currentUser.attributes.sub,
@@ -139,7 +145,7 @@ export default function EventScreen(props) {
     }
   };
 
-  getAllFollowers = (eventId) => {
+  const getAllFollowers = (eventId) => {
     const input = {
       id: eventId,
       nextToken: null,
@@ -154,9 +160,9 @@ export default function EventScreen(props) {
     }, [setFollowers]);
   };
 
-  leaveEvent = (follower) => {
+  const leaveEvent = (follower) => {
     if (!pending) {
-      deleteExistingFollower = async () => {
+      const deleteExistingFollower = async () => {
         const input = {
           input: {
             id: follower.id,
@@ -220,7 +226,9 @@ export default function EventScreen(props) {
         </Right>
       </Header>
       <Content padder>
-        <EventBox isClickable={false} event={event} />
+
+        <EventBoxDetailsScreen isClickable={false} event={event} updateE={isUpdate} />
+
         <List>
           <ListItem itemHeader first>
             <Text>Who's coming</Text>

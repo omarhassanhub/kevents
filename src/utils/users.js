@@ -131,5 +131,5 @@ async function updateEndpoint(
   return result;
 }
 
-exports.getCognitoUser = getCognitoUser;
-exports.updateDatabaseUser = updateDatabaseUser;
+export {getCognitoUser}
+export {updateDatabaseUser}

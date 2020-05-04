@@ -33,7 +33,7 @@ export default function AccountScreen() {
   let phoneNumber = useFormInput(attributes ? attributes.phone_number : '');
   const email = useFormInput(attributes ? attributes.email : '');
 
-  updateParticulars = async () => {
+  const updateParticulars = async () => {
     const updatedAttributes = {
       given_name: firstName.value,
       family_name: lastName.value,

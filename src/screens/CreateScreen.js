@@ -38,8 +38,6 @@ export default function CreateScreen({ navigation }) {
   const [mode, setMode] = useState('datetime');
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
-
-
   const showDatePicker = () => {
     setDatePickerVisibility(true);
   };
@@ -56,116 +54,60 @@ export default function CreateScreen({ navigation }) {
 
   let [selectedImage, setSelectedImage] = React.useState(null);
 
-  let openImagePickerAsync = async () => {
-    let permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
-
-    if (permissionResult.granted === false) {
-      alert('Permission to access camera roll is required!');
-      return;
-    }
-
-    let pickerResult = await ImagePicker.launchImageLibraryAsync();
-    if (pickerResult.cancelled === true) {
-      return;
-    }
-
-    setSelectedImage({ localUri: pickerResult.uri });
-
-  };
-
-  if (selectedImage !== null) {
-    // console.log("******")
-    // console.log(selectedImage.localUri)
-    // alert(selectedImage.localUri)
-    const test = selectedImage.localUri;
-    const lastStr = test.lastIndexOf("/");
-    const str = test.substring(lastStr + 1);
-    const extension = str.split(".")[1]
-    const text = str.substring(0, str.lastIndexOf('.'));
-    // console.log("+++++");
-    // console.log(str);
-    console.log(extension);
-    console.log(text);
-  }
-
   const {
     aws_user_files_s3_bucket_region: region,
     aws_user_files_s3_bucket: bucket
   } = config
-  // upload the image to S3 and then save it in the GraphQL API
-  // async function createProduct() {
-  //
-  //   if (selectedImage) {
-  //     const getImageUri = selectedImage.localUri;
-  //     const lastStr = getImageUri.lastIndexOf("/");
-  //     const str = getImageUri.substring(lastStr + 1);
-  //     const extension = str.split(".")[1]
-  //     const fileName = str.substring(0, str.lastIndexOf('.'));
-  //     // const extension = x.split(".")[1]
-  //     const { type: mimeType } = fileName
-  //     const key = `images/${uuid()}${fileName}.${extension}`
-  //     const url = `https://${bucket}.s3.${region}.amazonaws.com/public/${key}`
-  //
-  //     const inputData = { name: fileName , image: url }
-  //
-  //     try {
-  //       await Storage.put(key, fileName, {
-  //         contentType: mimeType
-  //       })
-  //       await API.graphql(graphqlOperation(CreateProduct, { input: inputData }))
-  //     } catch (err) {
-  //       console.log('error: ', err)
-  //     }
-  //   }
-  // }
 
 
   let user = getCognitoUser();
   const { attributes } = user;
+  console.log(attributes)
 
   let title = useFormInput();
   let description = useFormInput();
+  let social_url = useFormInput();
   let image = useFormInput();
+
+  // event handler to pull up camera roll
+  const _pickImage = async () => {
+    const {
+      status: cameraRollPerm
+    } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+    if (cameraRollPerm === 'granted') {
+      let pickerResult = await ImagePicker.launchImageLibraryAsync({
+        allowsEditing: false,
+        aspect: [4, 3],
+      });
+      // await _handleImagePicked(pickerResult);
+      setSelectedImage({ uri: pickerResult.uri });
+    }
+  };
+
 
   const createNewEvent = async () => {
     if (!title.value || !description.value) {
       alert('Please fill out all the fields');
       return;
     }
-    // if (selectedImage) {
-      const getImageUri = selectedImage.localUri;
-      const lastStr = getImageUri.lastIndexOf("/");
-      const str = getImageUri.substring(lastStr + 1);
-      const extension = str.split(".")[1]
-      const fileName = str.substring(0, str.lastIndexOf('.'));
-      // const extension = x.split(".")[1]
 
-      let contentType = 'application/octet-stream';
+    const imageName = selectedImage.uri.replace(/^.*[\\\/]/, '');
+    // const fileType = mime.lookup(pickerResult.uri);
+    const access = { contentType: 'image/jpeg' };
+    const imageData = await fetch(selectedImage.uri)
+    const blobData = await imageData.blob()
+    const key = `images/${imageName}`
+    const url = `https://${bucket}.s3.${region}.amazonaws.com/public/${key}`
 
-
-      const key = `images/${uuid()}${fileName}.${extension}`
-      const url = `https://${bucket}.s3.${region}.amazonaws.com/public/${key}`
-
-      if (extension === 'png' || extension === 'jpg' || extension === 'jpeg' || extension === 'gif')
-          contentType = "image/" + extension;
-      const { type: mimeType } = contentType
-      const inputData = { name: fileName , image: url }
-
-      // try {
-      //   await Storage.put(key, fileName, {
-      //     contentType: mimeType
-      //   })
-      //   await API.graphql(graphqlOperation(CreateProduct, { input: inputData }))
-      // } catch (err) {
-      //   console.log('error: ', err)
-      // }
-    // }
+      // if (extension === 'png' || extension === 'jpg' || extension === 'jpeg' || extension === 'gif')
+      //     contentType = "image/" + extension;
     const input = {
       input: {
         startAt: Date.parse(datetime) / 1000,
         title: title.value,
         description: description.value,
         image: url,
+        social_url: social_url.value,
         eventUserId: attributes.sub,
         status: 'CREATED',
       },
@@ -173,9 +115,9 @@ export default function CreateScreen({ navigation }) {
 
     let result = null;
     try {
-        await Storage.put(key, fileName, {
-          contentType: "image/jpg"
-        })
+      await Storage.put(key, blobData, access)
+          .then (result => console.log(result))
+          .catch(err => console.log(err));
       result = await API.graphql(graphqlOperation(createEvent, input));
     } catch (e) {
       console.log(e);
@@ -228,9 +170,11 @@ export default function CreateScreen({ navigation }) {
           <Item fixedLabel>
             <Label>Poster</Label>
             {/*<Input {...image} />*/}
-            <Button onPress={openImagePickerAsync}><Text>Select Poster</Text></Button>
-
-
+            <Button onPress={_pickImage}><Text>Select Poster</Text></Button>
+          </Item>
+          <Item fixedLabel>
+            <Label>Social Media Url</Label>
+            <Input {...social_url} />
           </Item>
           <Item fixedLabel last>
             <Label>Date & Time</Label>

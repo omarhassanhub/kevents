@@ -17,4 +17,5 @@ function useFormInput(initialValue) {
   };
 }
 
-exports.useFormInput = useFormInput;
+
+export {useFormInput}

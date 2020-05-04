@@ -18,8 +18,10 @@ export const createUser = /* GraphQL */ `
           title
           description
           image
+          social_url
           status
           startAt
+          owner
         }
         nextToken
       }
@@ -57,8 +59,10 @@ export const updateUser = /* GraphQL */ `
           title
           description
           image
+          social_url
           status
           startAt
+          owner
         }
         nextToken
       }
@@ -96,8 +100,10 @@ export const deleteUser = /* GraphQL */ `
           title
           description
           image
+          social_url
           status
           startAt
+          owner
         }
         nextToken
       }
@@ -128,6 +134,7 @@ export const createEvent = /* GraphQL */ `
       title
       description
       image
+      social_url
       status
       user {
         id
@@ -160,6 +167,7 @@ export const createEvent = /* GraphQL */ `
         nextToken
       }
       startAt
+      owner
     }
   }
 `;
@@ -173,6 +181,7 @@ export const updateEvent = /* GraphQL */ `
       title
       description
       image
+      social_url
       status
       user {
         id
@@ -205,6 +214,7 @@ export const updateEvent = /* GraphQL */ `
         nextToken
       }
       startAt
+      owner
     }
   }
 `;
@@ -218,6 +228,7 @@ export const deleteEvent = /* GraphQL */ `
       title
       description
       image
+      social_url
       status
       user {
         id
@@ -250,6 +261,7 @@ export const deleteEvent = /* GraphQL */ `
         nextToken
       }
       startAt
+      owner
     }
   }
 `;
@@ -282,6 +294,7 @@ export const createChat = /* GraphQL */ `
         title
         description
         image
+        social_url
         status
         user {
           id
@@ -297,6 +310,7 @@ export const createChat = /* GraphQL */ `
           nextToken
         }
         startAt
+        owner
       }
       createdAt
     }
@@ -331,6 +345,7 @@ export const updateChat = /* GraphQL */ `
         title
         description
         image
+        social_url
         status
         user {
           id
@@ -346,6 +361,7 @@ export const updateChat = /* GraphQL */ `
           nextToken
         }
         startAt
+        owner
       }
       createdAt
     }
@@ -380,6 +396,7 @@ export const deleteChat = /* GraphQL */ `
         title
         description
         image
+        social_url
         status
         user {
           id
@@ -395,6 +412,7 @@ export const deleteChat = /* GraphQL */ `
           nextToken
         }
         startAt
+        owner
       }
       createdAt
     }
@@ -428,6 +446,7 @@ export const createFollower = /* GraphQL */ `
         title
         description
         image
+        social_url
         status
         user {
           id
@@ -443,6 +462,7 @@ export const createFollower = /* GraphQL */ `
           nextToken
         }
         startAt
+        owner
       }
     }
   }
@@ -475,6 +495,7 @@ export const updateFollower = /* GraphQL */ `
         title
         description
         image
+        social_url
         status
         user {
           id
@@ -490,6 +511,7 @@ export const updateFollower = /* GraphQL */ `
           nextToken
         }
         startAt
+        owner
       }
     }
   }
@@ -522,6 +544,7 @@ export const deleteFollower = /* GraphQL */ `
         title
         description
         image
+        social_url
         status
         user {
           id
@@ -537,6 +560,7 @@ export const deleteFollower = /* GraphQL */ `
           nextToken
         }
         startAt
+        owner
       }
     }
   }

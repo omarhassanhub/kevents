@@ -15,8 +15,10 @@ export const onCreateUser = /* GraphQL */ `
           title
           description
           image
+          social_url
           status
           startAt
+          owner
         }
         nextToken
       }
@@ -51,8 +53,10 @@ export const onUpdateUser = /* GraphQL */ `
           title
           description
           image
+          social_url
           status
           startAt
+          owner
         }
         nextToken
       }
@@ -87,8 +91,10 @@ export const onDeleteUser = /* GraphQL */ `
           title
           description
           image
+          social_url
           status
           startAt
+          owner
         }
         nextToken
       }
@@ -110,12 +116,13 @@ export const onDeleteUser = /* GraphQL */ `
   }
 `;
 export const onCreateEvent = /* GraphQL */ `
-  subscription OnCreateEvent {
-    onCreateEvent {
+  subscription OnCreateEvent($owner: String) {
+    onCreateEvent(owner: $owner) {
       id
       title
       description
       image
+      social_url
       status
       user {
         id
@@ -148,16 +155,18 @@ export const onCreateEvent = /* GraphQL */ `
         nextToken
       }
       startAt
+      owner
     }
   }
 `;
 export const onUpdateEvent = /* GraphQL */ `
-  subscription OnUpdateEvent {
-    onUpdateEvent {
+  subscription OnUpdateEvent($owner: String) {
+    onUpdateEvent(owner: $owner) {
       id
       title
       description
       image
+      social_url
       status
       user {
         id
@@ -190,16 +199,18 @@ export const onUpdateEvent = /* GraphQL */ `
         nextToken
       }
       startAt
+      owner
     }
   }
 `;
 export const onDeleteEvent = /* GraphQL */ `
-  subscription OnDeleteEvent {
-    onDeleteEvent {
+  subscription OnDeleteEvent($owner: String) {
+    onDeleteEvent(owner: $owner) {
       id
       title
       description
       image
+      social_url
       status
       user {
         id
@@ -232,6 +243,7 @@ export const onDeleteEvent = /* GraphQL */ `
         nextToken
       }
       startAt
+      owner
     }
   }
 `;
@@ -261,6 +273,7 @@ export const onCreateChat = /* GraphQL */ `
         title
         description
         image
+        social_url
         status
         user {
           id
@@ -276,6 +289,7 @@ export const onCreateChat = /* GraphQL */ `
           nextToken
         }
         startAt
+        owner
       }
       createdAt
     }
@@ -307,6 +321,7 @@ export const onUpdateChat = /* GraphQL */ `
         title
         description
         image
+        social_url
         status
         user {
           id
@@ -322,6 +337,7 @@ export const onUpdateChat = /* GraphQL */ `
           nextToken
         }
         startAt
+        owner
       }
       createdAt
     }
@@ -353,6 +369,7 @@ export const onDeleteChat = /* GraphQL */ `
         title
         description
         image
+        social_url
         status
         user {
           id
@@ -368,6 +385,7 @@ export const onDeleteChat = /* GraphQL */ `
           nextToken
         }
         startAt
+        owner
       }
       createdAt
     }
@@ -398,6 +416,7 @@ export const onCreateFollower = /* GraphQL */ `
         title
         description
         image
+        social_url
         status
         user {
           id
@@ -413,6 +432,7 @@ export const onCreateFollower = /* GraphQL */ `
           nextToken
         }
         startAt
+        owner
       }
     }
   }
@@ -442,6 +462,7 @@ export const onUpdateFollower = /* GraphQL */ `
         title
         description
         image
+        social_url
         status
         user {
           id
@@ -457,6 +478,7 @@ export const onUpdateFollower = /* GraphQL */ `
           nextToken
         }
         startAt
+        owner
       }
     }
   }
@@ -486,6 +508,7 @@ export const onDeleteFollower = /* GraphQL */ `
         title
         description
         image
+        social_url
         status
         user {
           id
@@ -501,6 +524,7 @@ export const onDeleteFollower = /* GraphQL */ `
           nextToken
         }
         startAt
+        owner
       }
     }
   }

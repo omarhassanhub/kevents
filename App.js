@@ -104,6 +104,7 @@ function App() {
         }
       }}
     >
+    >
       {isLoading ? <AppLoading /> : <AppContainer />}
     </NavigationContainer>
   );

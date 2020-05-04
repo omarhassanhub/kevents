@@ -29,7 +29,8 @@ export default function ({ navigation, route }) {
   const [refreshing, setRefreshing] = useState(true);
   const [user, setUser] = useState([]);
   const [loaded, setLoaded] = useState(true);
-
+  const [isAdmin, setAdmin] = useState(false);
+  // console.log(events)
   useEffect(() => {
     if (route.params?.refreshList) {
       setRefreshing(true);
@@ -40,8 +41,14 @@ export default function ({ navigation, route }) {
 
   async function authUser() {
     const cognitoUser = await Auth.currentAuthenticatedUser();
+    console.log(cognitoUser.signInUserSession.idToken.payload['cognito:groups'])
+    if (cognitoUser.signInUserSession.idToken.payload['cognito:groups'].indexOf("master") > -1) {
+      setAdmin(true)
+    }
+
     if (cognitoUser) {
       setUser(cognitoUser);
+
       updateDatabaseUser(cognitoUser.username, cognitoUser.attributes, loaded);
       setLoaded(false);
       Analytics.record({
@@ -96,6 +103,7 @@ export default function ({ navigation, route }) {
           />
         }
         data={events}
+
         renderItem={(data, rowMap) => (
           <EventBox
             currentUser={user}
@@ -106,6 +114,7 @@ export default function ({ navigation, route }) {
         )}
         renderHiddenItem={(data, dataMap) => {
           const disabledButton = () => (
+              <Content>
             <Button
               disabled
               bordered
@@ -113,6 +122,8 @@ export default function ({ navigation, route }) {
             >
               <Text>Delete</Text>
             </Button>
+                </Content>
+
           );
           const enabledButton = () => (
             <Content>
@@ -123,11 +134,13 @@ export default function ({ navigation, route }) {
               >
                 <Text>Delete</Text>
               </Button>
+
               {refreshing && <Spinner color='red' />}
             </Content>
           );
           const renderButton = () => {
-            if (data.item.user.username === user.username)
+            if (data.item.user.username === user.username || isAdmin)
+
               return enabledButton();
             return disabledButton();
           };

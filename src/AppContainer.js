@@ -53,7 +53,7 @@ const HomeTabNavigator = ({ navigation, route }) => {
           if (route.name == 'Home') iconName = 'ios-home';
           else if (route.name == 'History') iconName = 'ios-globe';
           else if (route.name == 'Account') iconName = 'ios-person';
-          else if (route.name == 'About') iconName = 'ios-About';
+          else if (route.name == 'About') iconName = 'ios-help';
           return <Ionicons name={iconName} size={size} color={color} />;
         },
       })}
