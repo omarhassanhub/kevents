@@ -110,7 +110,7 @@ export default function EventBoxDetailsScreen(props) {
                 <Button
 
                     bordered
-                    style={{ width: 90, justifyContent: 'right' }}
+                    style={{ width: 90, justifyContent: 'center' }}
                     onPress={() => createNewEvent()}
                 >
                     <Text>Update</Text>

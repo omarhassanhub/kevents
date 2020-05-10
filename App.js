@@ -103,7 +103,7 @@ function App() {
           routeNameRef.current = currentRouteName;
         }
       }}
-    >
+
     >
       {isLoading ? <AppLoading /> : <AppContainer />}
     </NavigationContainer>

@@ -29,7 +29,7 @@ export default function({ navigation }) {
         <Card transparent>
           <CardItem>
             <Body>
-              <Text>About the app!</Text>
+              <Text>This is an event app!</Text>
             </Body>
           </CardItem>
         </Card>
