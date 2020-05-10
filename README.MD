@@ -32,7 +32,7 @@ Issues need fixing:
 - [ ] Dockerize the current Dev environment to incorporate all the above
     - [ ] This above will require Vmware Fusion (supports nested virtualization) with Ubuntu OS image
 
-Status:
+Status (work in progress:
 
 - Currently, I have been able to Dockerize the environment by utilizing [andocker](https://github.com/ccarcaci/andocker)
 and [docker-android](https://github.com/budtmo/docker-android) but facing a few issues with the emulator not starting up and being flaky.
