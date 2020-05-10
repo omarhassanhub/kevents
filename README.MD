@@ -16,9 +16,9 @@ Issues need fixing:
 - Implement Test Driven Development
 
 
-###Improve Dev environment
+### Improve Dev environment
  
-###Current (MAC OS)
+### Current (MAC OS)
 
 - [ ] Python
 - [ ] NPM
@@ -28,14 +28,16 @@ Issues need fixing:
 - [ ] Android Studio (To use the Emulator)
 - [ ] Xcode (To use the Emulator)
 
-###Ideal (Docker container):
+### Ideal (Docker container):
 - [ ] Dockerize the current Dev environment to incorporate all the above
     - [ ] This above will require Vmware Fusion (supports nested virtualization) with Ubuntu OS image
+
 Status:
-Currently, I have been able to Dockerize the environment by utilizing [andocker](https://github.com/ccarcaci/andocker)
+
+- Currently, I have been able to Dockerize the environment by utilizing [andocker](https://github.com/ccarcaci/andocker)
 and [docker-android](https://github.com/budtmo/docker-android) but facing a few issues with the emulator not starting up and being flaky.
 
-###App deployment:
+### App deployment:
 - [ ] Use Code Deploy to push the changes from github to an ec2 instance on AWS
 - [ ] Implement Docker on the ec2 instance
 - [ ] Deploy to app/play store 
@@ -57,7 +59,7 @@ Notes to self:
 The current architecture needs updating to include s3 and web components.
 
 
-###ATTRIBUTIONS
+### ATTRIBUTIONS
 ---
 This project contains source code or library dependencies from the following projects:
 
